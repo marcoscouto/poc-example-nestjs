@@ -38,11 +38,11 @@ export class TaskEntity {
     })
     private date: Date;
 
-    constructor(title, description){
+    constructor(title: string, description: string, date: Date){
+        this.code = randomUUID()
         this.title = title;
         this.description = description;
-        this.code = randomUUID()
-        this.date = new Date();
+        this.date = date;
     }
 
 }

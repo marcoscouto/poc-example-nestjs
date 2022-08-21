@@ -4,7 +4,7 @@ export class Task {
     private description: string;
     private date: Date;
 
-    constructor(title, description, date){
+    constructor(title: string, description: string, date: Date){
         this.title = title;
         this.description = description;
         this.date = date;
