@@ -1,14 +1,22 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { Task } from './task';
+import { TaskRepository } from './task.repository';
 
-@Controller()
+@Controller('tasks')
 export class TaskController {
-  constructor() {}
+  constructor(private repository: TaskRepository) {}
 
-  @Get('tasks')
-  getAllTasks(): Task {
-    const task = new Task("Task Title", "Task Description", new Date());
-    return task;
+  @Get()
+  async getAllTasks(): Promise<Task[]> {
+    const tasks = await this.repository.find();
+    return tasks.map(task => task.toDomain());
+  }
+
+  @Post()
+  async createTask(@Body() dto: any) {
+    const { title, description, date} = dto;
+    const task = new Task(title, description, date);
+    return this.repository.save(task.toEntity());
   }
 
 }

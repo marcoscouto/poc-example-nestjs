@@ -1,5 +1,6 @@
 import { randomUUID } from "crypto";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import { Task } from "./task";
 
 @Entity({
     name: 'tb_task'
@@ -14,7 +15,8 @@ export class TaskEntity {
     @Column({
         name: 'code',
         length: 36,
-        nullable: false
+        nullable: false,
+        unique: true,
     })
     private code: string; 
 
@@ -43,6 +45,10 @@ export class TaskEntity {
         this.title = title;
         this.description = description;
         this.date = date;
+    }
+
+    toDomain(): Task {
+        return new Task(this.title, this.description, this.date, this.code);
     }
 
 }
